@@ -1,54 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import Card, {CardVariant} from "./Components/Card";
-import UserList from "./Components/UserList";
-import {ITodo, IUser} from "./types/types";
-import axios from "axios";
-import List from "./Components/List";
-import UserItem from "./Components/UserItem";
-import TodoItem from "./Components/TodoItem";
-import EventExample from "./Components/EventExample";
+import React from 'react';
+import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
+import UsersPage from "./Components/UsersPage";
+import TodosPage from "./Components/TodosPage";
 
 const App = () => {
-    const [users,setUsers] = useState<IUser[]>([])
-    const [todos,setTodos] = useState<ITodo[]>([])
-    useEffect(() => {
-        fetchUsers()
-        fetchTodos()
-    }, [])
-
-    async function fetchUsers(){
-        try {
-            const response = await axios.get<IUser[]>('https://jsonplaceholder.typicode.com/users')
-            setUsers(response.data)
-        } catch (e) {
-            alert(e)
-        }
-    }
-
-    async function fetchTodos(){
-        try {
-            const response = await axios.get<ITodo[]>('https://jsonplaceholder.typicode.com/todos?_limit=10')
-            setTodos(response.data)
-        } catch (e) {
-            alert(e)
-        }
-    }
-
     return (
-        <div>
-            <EventExample/>
-            <Card width='200px' height='200px' variant={CardVariant.primary} onClick={(num) => console.log('click', num)}>
-                <button>Кнопка</button>
-            </Card>
-            <List items={users}
-                  renderItem={
-                (user: IUser) => <UserItem user={user} key={user.id}/>
-            }/>
-            <List items={todos}
-                  renderItem={
-                (todo: ITodo) => <TodoItem todo={todo} key={todo.id}/>
-            }/>
-        </div>
+        <BrowserRouter>
+            <div>
+                <NavLink to="/users">Пользовактели</NavLink>
+                <NavLink to="/todos">Список дел</NavLink>
+            </div>
+            <Routes>
+                <Route path={'/users'} element={<UsersPage/>}/>
+                <Route path={'/todos'} element={<TodosPage/>}/>
+            </Routes>
+        </BrowserRouter>
     );
 };
 
