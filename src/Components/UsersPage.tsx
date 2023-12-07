@@ -6,12 +6,14 @@ import Card, {CardVariant} from "./Card";
 import List from "./List";
 import UserItem from "./UserItem";
 import TodoItem from "./TodoItem";
+import {useNavigate} from "react-router-dom";
 
 const UsersPage: FC = () => {
     const [users,setUsers] = useState<IUser[]>([])
     useEffect(() => {
         fetchUsers()
     }, [])
+    const navigate = useNavigate();
 
     async function fetchUsers(){
         try {
@@ -26,7 +28,7 @@ const UsersPage: FC = () => {
         <div>
             <List items={users}
                   renderItem={
-                      (user: IUser) => <UserItem user={user} key={user.id}/>
+                      (user: IUser) => <UserItem user={user} key={user.id} onClick={(user:IUser) => navigate('/users/' + user.id)}/>
                   }/>
         </div>
     );
