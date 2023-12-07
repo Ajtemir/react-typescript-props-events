@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card = ({width, height, children} : CardProps) => {
     return (
-        <div style={{width, height, background: 'gray', border: '1px solid gray'}}>
+        <div style={{width, height, border: '1px solid gray'}}>
             {children}
         </div>
     );
